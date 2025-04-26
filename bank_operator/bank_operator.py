@@ -1,6 +1,5 @@
 from account.user import User
 from account.bank_account import BankAccount, SavingsAccount, CurrentAccount, StudentAccount
-import string
 
 users = []
 
@@ -10,8 +9,8 @@ def create_user():
         email = input("Enter email: ")
         user = User(name, email)
         if not user.is_valid_email(email):
-            print("Invalid email address!")
-            return  # Prevents user from being added with invalid email
+            print("Invalid email address!")  # ✅ Issue #7
+            return
         users.append(user)
         print(f"User {name} created.\n")
     else:
@@ -26,15 +25,14 @@ def list_users():
 
 def create_account():
     if not users:
-        print("No users available. Please create a user first.\n")
-        return  # ✅ Issue #1: Prevent proceeding without users
+        print("No users available. Please create a user first.\n")  # ✅ Issue #4
+        return
 
     list_users()
     try:
         idx = int(input("Select user number: ")) - 1
-        # Ensure selected index is valid
         if idx < 0 or idx >= len(users):
-            print("Invalid user selection. Please select a number within the valid range.\n")
+            print("Invalid user selection.\n")  # ✅ Issue #5
             return
     except ValueError:
         print("Invalid input. Please enter a number.\n")
@@ -58,7 +56,7 @@ def create_account():
     elif account_choice == 3:
         account = CurrentAccount(amount)
     else:
-        print("Invalid account type!")
+        print("Invalid account type!")  # ✅ Issue #6
         return
 
     users[idx].add_account(account)
@@ -72,9 +70,8 @@ def deposit_money():
     list_users()
     try:
         idx = int(input("Select user: ")) - 1
-        # Ensure selected index is valid
         if idx < 0 or idx >= len(users):
-            print("Invalid user selection. Please select a number within the valid range.\n")
+            print("Invalid user selection.\n")  # ✅ Issue #5
             return
     except ValueError:
         print("Invalid input.\n")
@@ -90,7 +87,7 @@ def deposit_money():
     try:
         acc_idx = int(input("Select account: ")) - 1
         if acc_idx < 0 or acc_idx >= len(user.accounts):
-            print("Invalid account selection.\n")
+            print("Invalid account selection.\n")  # ✅ Issue #3
             return
         amount = float(input("Enter amount to deposit: "))
     except ValueError:
@@ -108,9 +105,8 @@ def withdraw_money():
     list_users()
     try:
         idx = int(input("Select user: ")) - 1
-        # Ensure selected index is valid
         if idx < 0 or idx >= len(users):
-            print("Invalid user selection. Please select a number within the valid range.\n")
+            print("Invalid user selection.\n")  # ✅ Issue #5
             return
     except ValueError:
         print("Invalid input.\n")
@@ -126,7 +122,7 @@ def withdraw_money():
     try:
         acc_idx = int(input("Select account: ")) - 1
         if acc_idx < 0 or acc_idx >= len(user.accounts):
-            print("Invalid account selection.\n")
+            print("Invalid account selection.\n")  # ✅ Issue #3
             return
         amount = float(input("Enter amount to withdraw: "))
     except ValueError:
@@ -147,9 +143,8 @@ def view_transactions():
     list_users()
     try:
         idx = int(input("Select user: ")) - 1
-        # Ensure selected index is valid
         if idx < 0 or idx >= len(users):
-            print("Invalid user selection. Please select a number within the valid range.\n")
+            print("Invalid user selection.\n")  # ✅ Issue #5
             return
     except ValueError:
         print("Invalid input.\n")
@@ -164,29 +159,3 @@ def view_transactions():
         print(f"\n{acc.get_account_type()} {i+1} - Balance: Rs. {acc.get_balance()}")
         for tx in acc.get_transaction_history():
             print(tx)
-
-# Fix for Issue #2: Ensure balance consistency after multiple operations
-class BankAccount:
-    def __init__(self, balance=0.0):
-        self.balance = balance
-        self.transaction_history = []
-
-    def get_balance(self):
-        return self.balance
-
-    def deposit(self, amount):
-        if amount <= 0:
-            raise ValueError("Deposit amount must be positive.")
-        self.balance += amount
-        self.transaction_history.append(f"Deposited: Rs. {amount}")
-        
-    def withdraw(self, amount):
-        if amount <= 0:
-            raise ValueError("Withdrawal amount must be positive.")
-        if amount > self.balance:
-            raise ValueError("Insufficient balance.")
-        self.balance -= amount
-        self.transaction_history.append(f"Withdrawn: Rs. {amount}")
-        
-    def get_transaction_history(self):
-        return self.transaction_history
