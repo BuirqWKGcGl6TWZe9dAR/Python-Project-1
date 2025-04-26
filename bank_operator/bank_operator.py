@@ -32,8 +32,9 @@ def create_account():
     list_users()
     try:
         idx = int(input("Select user number: ")) - 1
+        # Ensure selected index is valid
         if idx < 0 or idx >= len(users):
-            print("Invalid user selection.\n")
+            print("Invalid user selection. Please select a number within the valid range.\n")
             return
     except ValueError:
         print("Invalid input. Please enter a number.\n")
@@ -71,8 +72,9 @@ def deposit_money():
     list_users()
     try:
         idx = int(input("Select user: ")) - 1
+        # Ensure selected index is valid
         if idx < 0 or idx >= len(users):
-            print("Invalid user selection.\n")
+            print("Invalid user selection. Please select a number within the valid range.\n")
             return
     except ValueError:
         print("Invalid input.\n")
@@ -106,8 +108,9 @@ def withdraw_money():
     list_users()
     try:
         idx = int(input("Select user: ")) - 1
+        # Ensure selected index is valid
         if idx < 0 or idx >= len(users):
-            print("Invalid user selection.\n")
+            print("Invalid user selection. Please select a number within the valid range.\n")
             return
     except ValueError:
         print("Invalid input.\n")
@@ -144,8 +147,9 @@ def view_transactions():
     list_users()
     try:
         idx = int(input("Select user: ")) - 1
+        # Ensure selected index is valid
         if idx < 0 or idx >= len(users):
-            print("Invalid user selection.\n")
+            print("Invalid user selection. Please select a number within the valid range.\n")
             return
     except ValueError:
         print("Invalid input.\n")
