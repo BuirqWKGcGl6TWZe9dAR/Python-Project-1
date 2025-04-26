@@ -160,3 +160,29 @@ def view_transactions():
         print(f"\n{acc.get_account_type()} {i+1} - Balance: Rs. {acc.get_balance()}")
         for tx in acc.get_transaction_history():
             print(tx)
+
+# Fix for Issue #2: Ensure balance consistency after multiple operations
+class BankAccount:
+    def __init__(self, balance=0.0):
+        self.balance = balance
+        self.transaction_history = []
+
+    def get_balance(self):
+        return self.balance
+
+    def deposit(self, amount):
+        if amount <= 0:
+            raise ValueError("Deposit amount must be positive.")
+        self.balance += amount
+        self.transaction_history.append(f"Deposited: Rs. {amount}")
+        
+    def withdraw(self, amount):
+        if amount <= 0:
+            raise ValueError("Withdrawal amount must be positive.")
+        if amount > self.balance:
+            raise ValueError("Insufficient balance.")
+        self.balance -= amount
+        self.transaction_history.append(f"Withdrawn: Rs. {amount}")
+        
+    def get_transaction_history(self):
+        return self.transaction_history
